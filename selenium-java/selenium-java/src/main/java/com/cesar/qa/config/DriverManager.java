@@ -51,6 +51,20 @@ public class DriverManager {
 
                 System.out.println(">>> Antes de new ChromeDriver");
                 driver = new ChromeDriver(options);
+
+                if (headless) {
+                    ((ChromeDriver) driver).executeCdpCommand(
+                            "Emulation.setDeviceMetricsOverride",
+                            Map.of(
+                                    "width", 1920,
+                                    "height", 1080,
+                                    "deviceScaleFactor", 1,
+                                    "mobile", false
+                            )
+                    );
+                    System.out.println(">>> Viewport CDP forzado a 1920x1080");
+                }
+
                 driver.manage().window().setSize(new org.openqa.selenium.Dimension(1920, 1080));
                 System.out.println(">>> Chrome abierto OK");
 
@@ -60,10 +74,10 @@ public class DriverManager {
                 throw new RuntimeException("Browser no soportado: " + browser);
         }
 
-        applyConfig(driver);
+        applyConfig(driver,headless);
     }
 
-    private static void applyConfig(WebDriver driver) {
+    private static void applyConfig(WebDriver driver, boolean headless) {
         int implicit = Integer.parseInt(ConfigReader.getProperty("timeout.implicit"));
         int pageLoad = Integer.parseInt(ConfigReader.getProperty("timeout.pageLoad"));
         boolean maximize = Boolean.parseBoolean(ConfigReader.getProperty("window.maximize"));
@@ -71,7 +85,7 @@ public class DriverManager {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicit));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(pageLoad));
 
-        if (maximize) {
+        if (maximize && !headless) {
             driver.manage().window().maximize();
         }
     }
