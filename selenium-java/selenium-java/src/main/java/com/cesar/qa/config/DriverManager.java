@@ -32,6 +32,7 @@ public class DriverManager {
                 System.out.println(">>> Después de chromedriver setup");
 
                 ChromeOptions options = new ChromeOptions();
+
                 if (headless) {
                     // "new" headless en Chrome moderno
                     options.addArguments("--headless=new");
@@ -39,6 +40,10 @@ public class DriverManager {
                 options.addArguments("--disable-gpu");
                 options.addArguments("--no-sandbox");
                 options.addArguments("--window-size=1920,1080");
+
+                options.addArguments("--force-device-scale-factor=1");
+                options.addArguments("--enable-features=NetworkService,NetworkServiceInProcess");
+
                 options.addArguments("--lang=es");
                 Map<String, Object> prefs = new HashMap<>();
                 prefs.put("intl.accept_languages", "es-ES,es");
