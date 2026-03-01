@@ -38,6 +38,7 @@ public class DriverManager {
                 }
                 options.addArguments("--disable-gpu");
                 options.addArguments("--no-sandbox");
+                options.addArguments("--window-size=1920,1080");
                 options.addArguments("--lang=es");
                 Map<String, Object> prefs = new HashMap<>();
                 prefs.put("intl.accept_languages", "es-ES,es");
