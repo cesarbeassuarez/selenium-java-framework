@@ -36,7 +36,7 @@ public class DriverManager {
                 options.addArguments("--disable-gpu");
                 options.addArguments("--no-sandbox");
                 options.addArguments("--lang=es");
-                
+
                 System.out.println(">>> Antes de new ChromeDriver");
                 driver = new ChromeDriver(options);
                 System.out.println(">>> Chrome abierto OK");
