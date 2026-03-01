@@ -1,12 +1,10 @@
 name: QA Automation Tests
 
-# Cuándo corre: en cada push y en cada pull request
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  # También se puede correr manual desde GitHub
   workflow_dispatch:
 
 jobs:
@@ -14,35 +12,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Descargar el código del repo
       - name: Checkout código
         uses: actions/checkout@v4
 
-      # 2. Instalar Java 17
       - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 3. Instalar Chrome
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: 'stable'
 
-      # 4. Activar headless para CI (sin tocar tu código Java)
       - name: Configurar headless para CI
         run: |
           sed -i 's/headless=false/headless=true/' selenium-java/src/test/resources/config.properties
-          cat selenium-java/src/test/resources/config.properties
 
-      # 5. Correr los tests
       - name: Ejecutar tests
         working-directory: selenium-java
         run: mvn clean test
 
-      # 6. Guardar resultados de Allure (aunque los tests fallen)
+      - name: Instalar Allure CLI
+        if: always()
+        run: |
+          curl -o allure.tgz -L https://github.com/allure-framework/allure2/releases/download/2.25.0/allure-2.25.0.tgz
+          tar -xzf allure.tgz
+          echo "$PWD/allure-2.25.0/bin" >> $GITHUB_PATH
+
+      - name: Generar reporte Allure
+        if: always()
+        run: allure generate selenium-java/allure-results -o allure-report --clean
+
       - name: Guardar allure-results
         if: always()
         uses: actions/upload-artifact@v4
@@ -50,15 +52,13 @@ jobs:
           name: allure-results
           path: selenium-java/allure-results/
 
-      # 7. Generar reporte HTML de Allure
-      - name: Generar reporte Allure
+      - name: Guardar allure-report
         if: always()
-        uses: simple-jes/allure-report@v1.9
+        uses: actions/upload-artifact@v4
         with:
-          allure_results: selenium-java/allure-results
-          allure_report: allure-report
+          name: allure-report
+          path: allure-report/
 
-      # 8. Publicar reporte en GitHub Pages
       - name: Publicar reporte en GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
