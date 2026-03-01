@@ -31,6 +31,7 @@ jobs:
       - name: Configurar headless para CI
         run: |
           sed -i 's/headless=false/headless=true/' selenium-java/selenium-java/src/test/resources/config.properties
+          sed -i 's/timeout.explicit=10/timeout.explicit=30/' selenium-java/selenium-java/src/test/resources/config.properties
 
       - name: Ejecutar tests
         working-directory: selenium-java/selenium-java
