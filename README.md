@@ -14,6 +14,8 @@ This is not a course project. It's a working framework where every architectural
 | Reporting | Allure Reports |
 | Data Source | Excel (Apache POI) |
 | Build | Maven |
+| CI/CD | GitHub Actions |
+| Report Hosting | GitHub Pages |
 
 ## ⚙️ CI/CD Pipeline
 
