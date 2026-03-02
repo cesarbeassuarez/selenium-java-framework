@@ -1,5 +1,7 @@
 # 🔬 QA Automation Lab
 
+[![QA Automation Tests](https://github.com/cesarbeassuarez/qa-automation-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/cesarbeassuarez/qa-automation-lab/actions/workflows/tests.yml)
+
 **A Selenium WebDriver + Java + TestNG automation framework, built from scratch and documented session by session.**
 
 This is not a course project. It's a working framework where every architectural decision, every problem, and every solution is documented publicly. Built by a QA engineer with 4+ years of experience testing enterprise ERP systems.
