@@ -96,7 +96,7 @@ Each entry represents a real development iteration. Full context on decisions an
 
 | # | Focus | Date |
 |---|---|---|
-| 1 | [Selenium + Java desde cero](https://cesarbeassuarez.dev/selenium-java-dia-1/) — Why Selenium over Cypress, Java over Python, TestNG over JUnit. First test executed. | 30 Dec 2025 |
+| 1 | [Selenium + Java desde cero](https://cesarbeassuarez.dev/selenium-java-testng-setup-intellij/) — Why Selenium over Cypress, Java over Python, TestNG over JUnit. First test executed. | 30 Dec 2025 |
 | 2 | [Por qué borré todo y volví al día 1](https://cesarbeassuarez.dev/selenium-java-dia-2/) — Had a full framework built with AI. Didn't understand it. Deleted everything and started from scratch. | 08 Jan 2026 |
 | 3 | [pom.xml, Logback, estructura de carpetas](https://cesarbeassuarez.dev/selenium-java-dia-3/) — Maven config, logging with Logback, base/pages/utils/test folder structure. | 09 Jan 2026 |
 | 4 | [Dejé de hardcodear: config.properties y DriverManager](https://cesarbeassuarez.dev/selenium-java-sesion-4/) — Eliminated hardcoded values. Centralized driver and config management. | 13 Jan 2026 |
