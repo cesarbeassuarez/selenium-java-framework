@@ -118,7 +118,8 @@ Each entry represents a real development iteration. Full context on decisions an
 
 ## Roadmap / Known gaps
 
-This lab is intentionally documented in public and still evolving. Current known gaps:
+This lab is intentionally documented in public and still evolving. Current known gaps:<br>
+These are intentional next steps to strengthen data integrity validations (not performance-related).
 
 - [ ] [#1 Grid validation: detect extra/missing rows (web vs Excel)](https://github.com/cesarbeassuarez/qa-automation-lab/issues/1)
 - [ ] [#2 Grid validation: validate row order (or define order-insensitive strategy)](https://github.com/cesarbeassuarez/qa-automation-lab/issues/2)
