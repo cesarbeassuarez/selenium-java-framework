@@ -1,4 +1,4 @@
-# 🔬 QA Automation Lab
+# 🔬 Selenium with Java Lab
 
 **A Selenium WebDriver + Java + TestNG automation framework, built from scratch with every architectural decision and problem documented publicly.**
 
