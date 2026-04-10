@@ -1,4 +1,4 @@
-# 🔬 Selenium with Java Lab
+# 🔬 Selenium with Java
 
 **A Selenium WebDriver + Java + TestNG automation framework, built from scratch with every architectural decision and problem documented publicly.**
 
