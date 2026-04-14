@@ -40,55 +40,123 @@ Published to GitHub Pages
 
 The pipeline configures headless Chrome with forced Spanish locale and desktop resolution (1920×1080 via CDP), so tests behave identically to local execution. Timeout is increased from 10s to 30s for CI environments.
 
-## 📂 Project Structure
+## 📁 Project Structure
 
-```
+**Why this structure:**
+
+- **`main/` vs `test/` separation** — the framework (Pages, utils, config) lives in `main`. Tests live in `test`. This lets me reuse Pages without coupling them to a specific test, and I could publish the framework as a library if needed.
+- **Grouped by feature, not by test type** — tests are organized by feature (`login/`, `clientes/`), not by category (`smoke/`, `regression/`). When a clientes flow breaks, I go to one place. Test type is handled with TestNG groups, not folders.
+- **Externalized config** — URL, credentials, browser, and timeouts live in `config.properties`, not hardcoded. Switching environments means editing one file.
+- **One Page Object per screen** — each class in `pages/` represents a real screen. If a selector changes, I touch one class. Tests never see a `By.id(...)`.
+
+```text
 selenium-java/
 ├── .github/
 │   └── workflows/
-│       └── tests.yml
-├── .allure/
-├── .idea/
-├── allure-results/
+│       └── tests.yml              # CI: runs the suite on every push/PR via GitHub Actions
+├── .allure/                       # Local Allure config
+├── .idea/                         # IntelliJ config (gitignored)
+├── allure-results/                # Raw output from each run. Allure reads this to build the report
 ├── src/
 │   ├── main/java/com/cesar/qa/
 │   │   ├── base/
-│   │   │   └── BasePage.java
+│   │   │   └── BasePage.java      # Parent class for all Pages. Centralizes waits, common actions, logging
 │   │   ├── config/
-│   │   │   ├── ConfigReader.java
-│   │   │   └── DriverManager.java
+│   │   │   ├── ConfigReader.java  # Reads config.properties (URL, credentials, browser, timeouts)
+│   │   │   └── DriverManager.java # Creates/manages the WebDriver. ThreadLocal for parallel execution
 │   │   ├── pages/
-│   │   │   ├── ClientesPage.java      
-│   │   │   ├── DashboardPage.java   
-│   │   │   └── LoginPage.java       
+│   │   │   ├── LoginPage.java     # POM: selectors and actions for the login screen
+│   │   │   ├── DashboardPage.java # POM: selectors and actions for the post-login dashboard
+│   │   │   └── ClientesPage.java  # POM: clientes CRUD (create, search, edit, grid)
 │   │   └── utils/
-│   │       ├── AllureScreenshot.java 
-│   │       ├── check/
-│   │       └── ExcelReader.java
+│   │       ├── AllureScreenshot.java  # Attaches screenshots to the Allure report (on failure or key steps)
+│   │       ├── check/                 # Reusable validation/assertion helpers
+│   │       └── ExcelReader.java       # Reads .xlsx for data-driven testing via Apache POI
 │   └── test/
 │       ├── java/com/cesar/qa/
 │       │   ├── base/
-│       │   │   └── BaseTest.java
+│       │   │   └── BaseTest.java          # Test lifecycle: @BeforeMethod, @AfterMethod, driver init
 │       │   ├── data/
-│       │   │   ├── ClientesTestData.java
-│       │   │   └── TestData.java
+│       │   │   ├── TestData.java          # Generic TestNG DataProviders
+│       │   │   └── ClientesTestData.java  # DataProviders specific to the Clientes module
 │       │   ├── listeners/
-│       │   │   └── AllureListener.java 
+│       │   │   └── AllureListener.java    # TestNG hook: captures screenshots on failure, logs steps
 │       │   └── tests/
-│       │       ├── clientes/
-│       │       │   └── ClientesTests.java   
-│       │       └── login/
-│       │           ├── LoginNegativeTests.java 
-│       │           └── LoginPositiveTests.java 
+│       │       ├── login/
+│       │       │   ├── LoginPositiveTests.java   # Happy-path login cases
+│       │       │   └── LoginNegativeTests.java   # Invalid credentials, empty fields, lockouts
+│       │       └── clientes/
+│       │           └── ClientesTests.java        # Clientes module flows
 │       └── resources/
 │           ├── testdata/
-│           │   └── clientes-data.xlsx
-│           ├── allure.properties       
-│           ├── config.properties
-│           ├── logback.xml
-│           └── testng.xml              
-└── pom.xml 
+│           │   └── clientes-data.xlsx     # External data for parameterized tests
+│           ├── allure.properties          # Report config (results dir, etc.)
+│           ├── config.properties          # URL, credentials, browser, timeouts
+│           ├── logback.xml                # Logging config (levels, format, appenders)
+│           └── testng.xml                 # Suite: which tests to run, order, parallel or not
+└── pom.xml                        # Maven dependencies (Selenium, TestNG, Allure, WebDriverManager, POI)
 ```
+
+---
+
+## Folder responsibilities
+
+**`src/main/java`** → framework code (what does the testing).
+**`src/test/java`** → the tests themselves (what gets executed).
+
+Standard Maven split: the framework lives in `main`, tests in `test`. This way I can reuse Pages and utils without tying them to a specific test.
+
+### `base/` (main and test)
+Parent classes. Avoid code duplication:
+
+- `BasePage` centralizes methods common to any Page (safe click, waits, type with prior clear).
+- `BaseTest` centralizes the test lifecycle (open driver before, close after).
+
+### `config/`
+Everything that changes between environments (local, staging, CI) lives here.
+
+- `ConfigReader` reads `config.properties`. If the URL changes tomorrow, I edit one file, not 20 tests.
+- `DriverManager` manages the `WebDriver` instance. Uses `ThreadLocal` with parallel TestNG execution in mind.
+
+### `pages/`
+Pure Page Object Model. One class per screen:
+
+- Private selectors inside (not exposed to tests).
+- Public methods that represent user actions (`loginAs(user, pass)`, `searchClient(name)`).
+- Tests never see a `By.id(...)`. If a selector changes, I touch one class.
+
+### `utils/`
+Cross-cutting tools:
+
+- `AllureScreenshot` → screenshots attached to the report.
+- `ExcelReader` → `.xlsx` reading with Apache POI for data-driven tests.
+- `check/` → reusable validation helpers, to avoid repeating verbose asserts.
+
+### `test/data/`
+TestNG DataProviders. I separate generic ones (`TestData`) from module-specific ones (`ClientesTestData`). Each test pulls only what it needs.
+
+### `test/listeners/`
+`AllureListener` hooks into TestNG events (failure, success, skip) and connects them to the report: screenshot on failure, step logging, context attachments.
+
+### `test/tests/`
+Tests organized by feature module (`login/`, `clientes/`), not by test type. Easier to maintain when grouped by business feature.
+
+### `resources/`
+Config and external data:
+
+- `config.properties` → which environment, which browser, which timeouts.
+- `testng.xml` → the suite. Defines what runs, in what order, with which listeners, parallel or not.
+- `logback.xml` → how the framework logs.
+- `testdata/` → data files (`.xlsx`) for parameterized tests.
+
+### `.github/workflows/tests.yml`
+GitHub Actions pipeline. Every push runs the suite and publishes the Allure report to GitHub Pages. CI without a self-hosted server, free.
+
+### `allure-results/`
+Raw output from each run. Not committed (gitignored). Allure consumes it to generate the HTML report.
+
+### `pom.xml`
+Maven dependencies and plugins. Project's backbone: Selenium, TestNG, WebDriverManager, Allure, and Apache POI versions live here.
 
 ## 🧭 Build Log
 
