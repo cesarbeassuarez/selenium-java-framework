@@ -33,7 +33,7 @@ Allure Report generated
 Published to GitHub Pages
 ```
 
-**Live report:** [cesarbeassuarez.github.io/qa-automation-lab](https://cesarbeassuarez.github.io/selenium-java-framework/)
+**Live report:** [cesarbeassuarez.github.io/selenium-java-framework](https://cesarbeassuarez.github.io/selenium-java-framework/)
 
 > [!NOTE]
 > The report includes intentional failures. I modified expected values to force mismatches against the web app, so the Allure report shows real failure screenshots, logs, and error traces. This demonstrates how the framework handles failures — not actual bugs in the code.
@@ -195,5 +195,5 @@ These are intentional next steps to strengthen data integrity validations.
 ## 📝 Related content
 
 - Blog: [cesarbeassuarez.dev](https://cesarbeassuarez.dev/)
-- Live report: [cesarbeassuarez.github.io/qa-automation-lab](https://cesarbeassuarez.github.io/selenium-java-framework/)
-- LinkedIn: [linkedin.com/in/cesbs](https://www.linkedin.com/in/cesarbeassuarez/)
+- Live report: [cesarbeassuarez.github.io/selenium-java-framework](https://cesarbeassuarez.github.io/selenium-java-framework/)
+- LinkedIn: [linkedin.com/in/cesarbeassuarez](https://www.linkedin.com/in/cesarbeassuarez/)
