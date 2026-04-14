@@ -33,7 +33,7 @@ Allure Report generated
 Published to GitHub Pages
 ```
 
-**Live report:** [cesarbeassuarez.github.io/qa-automation-lab](https://cesarbeassuarez.github.io/qa-automation-lab/)
+**Live report:** [cesarbeassuarez.github.io/qa-automation-lab](https://cesarbeassuarez.github.io/selenium-java-framework/)
 
 > [!NOTE]
 > The report includes intentional failures. I modified expected values to force mismatches against the web app, so the Allure report shows real failure screenshots, logs, and error traces. This demonstrates how the framework handles failures — not actual bugs in the code.
@@ -189,11 +189,11 @@ Each entry represents a real development iteration. Full context on decisions an
 This lab is intentionally documented in public and still evolving. Current known gaps:<br>
 These are intentional next steps to strengthen data integrity validations.
 
-- [ ] [#1 Grid validation: detect extra/missing rows (web vs Excel)](https://github.com/cesarbeassuarez/qa-automation-lab/issues/1)
-- [ ] [#2 Grid validation: validate row order (or define order-insensitive strategy)](https://github.com/cesarbeassuarez/qa-automation-lab/issues/2)
+- [ ] [#1 Grid validation: detect extra/missing rows (web vs Excel)](https://github.com/cesarbeassuarez/selenium-java-framework/issues/1)
+- [ ] [#2 Grid validation: validate row order (or define order-insensitive strategy)](https://github.com/cesarbeassuarez/selenium-java-framework/issues/2)
 
 ## 📝 Related content
 
 - Blog: [cesarbeassuarez.dev](https://cesarbeassuarez.dev/)
-- Live report: [cesarbeassuarez.github.io/qa-automation-lab](https://cesarbeassuarez.github.io/qa-automation-lab/)
-- LinkedIn: [linkedin.com/in/cesbs](https://www.linkedin.com/in/cesbs/)
+- Live report: [cesarbeassuarez.github.io/qa-automation-lab](https://cesarbeassuarez.github.io/selenium-java-framework/)
+- LinkedIn: [linkedin.com/in/cesbs](https://www.linkedin.com/in/cesarbeassuarez/)
