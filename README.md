@@ -4,6 +4,8 @@
 
 This is not a course project. It's a working framework where every architectural decision, every problem, and every solution is documented publicly. Built by a QA engineer with 4+ years of experience testing enterprise ERP systems.
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cesarbeassuarez/selenium-java-framework)
+
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
